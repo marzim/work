@@ -1,0 +1,283 @@
+﻿<Grid x:Class="SSCOUIViews.Controls.AlphaNumericKeyboard"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Width="Auto" Height="AUto"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:controls="clr-namespace:SSCOControls;assembly=SSCOControls" mc:Ignorable="d"
+        xmlns:helpers="clr-namespace:SSCOUIModels.Helpers;assembly=SSCOUIModels" d:DesignHeight="300" d:DesignWidth="300" DataContextChanged="Grid_DataContextChanged"
+        xmlns:p="clr-namespace:SSCOUIStrings.Properties;assembly=SSCOUIStrings" xmlns:local="clr-namespace:SSCOUIViews.Controls"
+        >
+    <Grid.Resources>
+        <helpers:AlphaNumericKeysHandler x:Key="AlphaNumericKeysHandler" />
+        <helpers:StateToVisibilityConverter x:Key="StateToVisibilityConverter" />
+        <helpers:ItemImageConverter x:Key="ItemImageConverter" />
+        <helpers:StateToBooleanConverter x:Key="StateToBooleanConverter" />
+        <helpers:FormatConverter x:Key="FormatConverter" />
+    </Grid.Resources>
+
+    <Grid Name="GenericAlphaNumericKeyboard">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="750" />
+            <ColumnDefinition Width="16" />
+            <ColumnDefinition Width="222" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="85" />            
+            <RowDefinition Height="64" />
+            <RowDefinition Height="64" />
+            <RowDefinition Height="64" />
+            <RowDefinition Height="64" />
+            <RowDefinition Height="64" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Border Style="{StaticResource numericTextBoxBorderStyle}" Margin="0,10,0,0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Height="54"
+                    Width="820">
+                <Border Style="{StaticResource numericTextBoxInnerShadowStyle}">
+                    <controls:WatermarkTextBox Grid.Column="1" Grid.ColumnSpan="3" Width="820" Height="54" Padding="12,0,0,0" Name="InputTextBox"
+                            PasswordText="{Binding Text, ElementName=InputTextBox}" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                            HorizontalAlignment="Center" TextAlignment="Center" Style="{StaticResource numericTextBoxStyle}"
+                            MaxLength="{Binding UIEchoField.MaxLength}" TextChanged="InputTextBox_TextChanged" PreviewKeyDown="InputTextBox_PreviewKeyDown"
+                            UndoLimit="0" Focusable="True" />
+                </Border>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <ItemsControl x:Name="Line1Keys">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Name="Line1AlphaNumKeys" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                            <controls:ImageButton Name="LineKeys" Text="{Binding Text}"  Margin="5" Click="KeyboardButton_Click"
+                                    Style="{StaticResource alphaNumericKeypadButtonStyle}" />                                
+                        </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.StateParam, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                            <Setter Property="Style" TargetName="LineKeys" Value="{StaticResource searchKeypadButtonStyle}" />
+                        </DataTrigger>                        
+                     </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>              
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <ItemsControl x:Name="Line2Keys">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Name="Line2AlphaNumKeys" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <controls:ImageButton Name="LineKeys" Text="{Binding Text}" Margin="5"
+                                    Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                                    Click="KeyboardButton_Click" />
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.StateParam, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                                <Setter Property="Style" TargetName="LineKeys" Value="{StaticResource searchKeypadButtonStyle}" />
+                            </DataTrigger>                           
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <controls:ImageButton Margin="5" Text="-" Click="KeyboardButton_Click" Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                    Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='OperatorKeyboard,Keyboard040c,Keyboard041f,Keyboard080a'}" />
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ItemsControl x:Name="Line3Keys">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Name="Line3AlphaNumKeys" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <controls:ImageButton Name="LineKeys" Text="{Binding Text}" Margin="5"
+                                        Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                                        Click="KeyboardButton_Click" />
+                            </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding DataContext.StateParam, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                                    <Setter Property="Style" TargetName="LineKeys" Value="{StaticResource searchKeypadButtonStyle}" />
+                                </DataTrigger>                                
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>                    
+                </ItemsControl>                          
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <controls:ImageButton Name="LineKeys" Margin="5" Text="_" Click="KeyboardButton_Click"
+                            Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                            Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='Keyboard040c,OperatorKeyboard,Keyboard080a'}" />
+                    <controls:ImageButton Margin="5" Text="," Click="KeyboardButton_Click" Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                            Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='Keyboard040c'}" />
+                    <controls:ImageButton Margin="5" Text="." Click="KeyboardButton_Click" Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                            Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='Keyboard040c'}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal">                    
+                    <controls:ImageButton Name="BSButton" Margin="5,5,13,5" Width="101" Style="{StaticResource backSpaceButtonStyle}" IsEnabled="False"
+                            CommandParameter="BackSpace" Click="KeyboardButton_Click" />
+                </StackPanel>                
+                
+            </Grid>            
+        </StackPanel>                
+        <Grid Grid.Row="4" Name="ExtendedPad" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Height="64" Orientation="Horizontal" Visibility="Visible" HorizontalAlignment="Center">
+                <controls:ImageToggleButton Name="ShiftButton" Margin="5" Text="Shift" Width="100" Style="{StaticResource mainToggleButtonStyle}"
+                        Visibility="{Binding ShiftKeyShown, Converter={StaticResource BooleanToVisibilityConverter}}" controls:CommandBehavior.Event="TouchDown"
+                        controls:CommandBehavior.Command="{Binding DataContext.ActionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}" controls:CommandBehavior.CommandParameter="ShiftKey"/>
+                <!--="ShiftButton_Checked" Unchecked="ShiftButton_Checked" HorizontalAlignment="Left"
+                Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='OperatorKeyboard,Keyboard040c'}"-->
+                
+                <controls:ImageButton Margin="5" Text="@" Click="KeyboardButton_Click" Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                        HorizontalAlignment="Left"
+                        Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='Keyboard040c,ExtendedAlphaNumeric,CmDataEntry2,CmDataEntryWithKeyBoard,ContextHelp,HelpOnWay,Keyboard0409,OperatorKeyboard'}" />
+                <controls:ImageButton Margin="5" Text="{Binding SpaceKeyText}" Width="215" Click="KeyboardButton_Click" HorizontalAlignment="Center"
+                        CommandParameter="Space" Style="{StaticResource alphaNumericSpaceButtonTextStyle}"
+                        Visibility="{Binding SpaceKeyShown, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <controls:ImageButton Margin="5" Text="," Click="KeyboardButton_Click" Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                        Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='OperatorKeyboard,Keyboard080a,Keyboard0424'}" />
+                <controls:ImageButton Margin="5" Text="." Click="KeyboardButton_Click" Style="{StaticResource alphaNumericKeypadButtonStyle}"
+                        Visibility="{Binding StateParam, Converter={StaticResource StateToVisibilityConverter}, ConverterParameter='Keyboard080a,Keyboard0424,ExtendedAlphaNumeric,CmDataEntry2,CmDataEntryWithKeyBoard,ContextHelp,HelpOnWay,Keyboard0409,OperatorKeyboard'}" />
+                <ItemsControl ItemsSource="{Binding HotKeys}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="{Binding HotKeys.Count}" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <controls:ImageButton Name="LineKeys" Text="{Binding Text}" controls:CommandBehavior.Event="TouchDown"
+                                        controls:CommandBehavior.Command="{Binding DataContext.ActionCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}}"
+                                        controls:CommandBehavior.CommandParameter="{Binding Data, Converter={StaticResource FormatConverter}, ConverterParameter=HotKeys({0})}" Margin="5" 
+                                                      Style="{StaticResource alphaNumericKeypadButtonStyle}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+        <StackPanel Name="NumericRow1" Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ItemsControl x:Name="NumericLine1Keys">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Name="Line1AlphaNumKeys" Columns="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <controls:ImageButton Name="LineKeys" Text="{Binding Text}" Margin="5" Style="{StaticResource numericLineKeypadButtonStyle}"
+                                    Click="KeyboardButton_Click" />
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.StateParam, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                                <Setter Property="Style" TargetName="LineKeys" Value="{StaticResource searchKeypadButtonStyle}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <StackPanel Name="NumericRow2" Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ItemsControl x:Name="NumericLine2Keys">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Name="Line1AlphaNumKeys" Columns="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <controls:ImageButton Name="LineKeys" Text="{Binding Text}" Margin="5" Style="{StaticResource numericLineKeypadButtonStyle}"
+                                    Click="KeyboardButton_Click" />
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.StateParam, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                                <Setter Property="Style" TargetName="LineKeys" Value="{StaticResource searchKeypadButtonStyle}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>            
+        </StackPanel>
+        <StackPanel Name="NumericRow3" Grid.Row="3" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ItemsControl x:Name="NumericLine3Keys">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Name="Line1AlphaNumKeys" Columns="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <controls:ImageButton Name="LineKeys" Text="{Binding Text}" Margin="5" Style="{StaticResource numericLineKeypadButtonStyle}"
+                                    Click="KeyboardButton_Click" />
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.StateParam, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                                <Setter Property="Style" TargetName="LineKeys" Value="{StaticResource searchKeypadButtonStyle}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <StackPanel Name="NumericRow4" Grid.Row="4" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <ItemsControl x:Name="NumericLine4Keys">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <controls:ImageButton Name="LineKeys" Text="{Binding Text}" Style="{StaticResource numericLineKeypadButtonZeroStyle}"
+                                    Click="KeyboardButton_Click" />
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding DataContext.StateParam, RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                                <Setter Property="Style" TargetName="LineKeys" Value="{StaticResource searchKeypadButtonStyle}" />
+                            </DataTrigger>                            
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <Grid Grid.Row="5">
+            <controls:ImageButton Name="GoBackButton" Margin="5" Grid.Row="5" Width="212" Command="{Binding ActionCommand}" CommandParameter="Cancel"
+                    VerticalAlignment="Center" Style="{StaticResource buttonGoBackStyle}" Text="{x:Static p:Resources.GoBack}" />            
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding StateParam, Converter={StaticResource StateToBooleanConverter}, 
+                    ConverterParameter='ProduceFavorites,MultiSelectProduceFavorites'}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+        </Grid>
+        <controls:ImageButton Margin="5" Grid.Row="4" Grid.Column="2" Name="EnterOperatorButton" Command="{Binding ActionCommand}"
+                HorizontalAlignment="Right" Text="{Binding EnterKeyText}" Background="#51AE46" Style="{StaticResource alphaNumericEnterKeypadButtonStyle}"
+                IsEnabled="False" Click="EnterButton_Click" />
+    </Grid>
+</Grid>

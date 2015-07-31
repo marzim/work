@@ -1,0 +1,20 @@
+﻿<c:PopupView x:Class="SSCOUIViews.Views.AlphaNumericInput" xmlns:c="clr-namespace:SSCOUIModels.Controls;assembly=SSCOUIModels"
+        xmlns:controls="clr-namespace:SSCOControls;assembly=SSCOControls" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:SSCOUIViews.Controls" xmlns:p="clr-namespace:SSCOUIStrings.Properties;assembly=SSCOUIStrings" mc:Ignorable="d"
+        xmlns:helpers="clr-namespace:SSCOUIModels.Helpers;assembly=SSCOUIModels" Width="Auto" Height="Auto"                           
+        ControlsToAllowEnabled="AssistanceButton" Alignment="Center" BackgroundType="Shroud">
+    <c:PopupView.Resources>
+        <helpers:StateToVisibilityConverter x:Key="StateToVisibilityConverter" />        
+    </c:PopupView.Resources>
+    
+    <Grid>
+        <controls:TipBorder Grid.RowSpan="2" ShowTip="false" Style="{StaticResource popupBorderStyle}"></controls:TipBorder>
+        <StackPanel Orientation="Vertical" Margin="10,20,10,20">
+            <TextBlock Name="TitleControl" TextAlignment="Center" VerticalAlignment="Center" Style="{StaticResource alphaNumericPopupTitleStyle}" />
+            <TextBlock Name="Instructions" TextAlignment="Center" VerticalAlignment="Center" Style="{StaticResource alphaNumericPopupTitleStyle}" />            
+            <TextBlock Name="Message" TextAlignment="Center" VerticalAlignment="Center" Style="{StaticResource alphaNumericPopupTextStyle}" />
+            <local:AlphaNumericKeyboard x:Name="GenericAlphaNumericKeyboard" />
+        </StackPanel>
+    </Grid>
+</c:PopupView>
